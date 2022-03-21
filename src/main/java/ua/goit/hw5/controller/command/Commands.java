@@ -2,6 +2,7 @@ package ua.goit.hw5.controller.command;
 
 public enum Commands {
     FIND_PETS_BY_STATUS("findpetsbystatus"),
+    ADD_PET("addpet"),
     EXIT("exit"),
     HELP("help");
 

@@ -1,16 +1,17 @@
 package ua.goit.hw5.model;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class Pet {
     private long id;
     private Category category;
     private String name;
-    private String[] photoUrls;
-    private Tag[] tags;
+    private Set<String> photoUrls;
+    private Set<Tag> tags;
     private PetStatus status;
 
-    public Pet(long id, Category category, String name, String[] photoUrls, Tag[] tags, PetStatus status) {
+    public Pet(long id, Category category, String name, Set<String> photoUrls, Set<Tag> tags, PetStatus status) {
         this.id = id;
         this.category = category;
         this.name = name;
@@ -43,19 +44,19 @@ public class Pet {
         this.name = name;
     }
 
-    public String[] getPhotoUrls() {
+    public Set<String> getPhotoUrls() {
         return photoUrls;
     }
 
-    public void setPhotoUrls(String[] photoUrls) {
+    public void setPhotoUrls(Set<String> photoUrls) {
         this.photoUrls = photoUrls;
     }
 
-    public Tag[] getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Tag[] tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
@@ -73,8 +74,8 @@ public class Pet {
                 "id=" + id +
                 ", category=" + category +
                 ", name='" + name + '\'' +
-                ", photoUrls=" + Arrays.toString(photoUrls) +
-                ", tags=" + Arrays.toString(tags) +
+                ", photoUrls=" + photoUrls +
+                ", tags=" + tags +
                 ", status=" + status.getStatus() +
                 '}';
     }

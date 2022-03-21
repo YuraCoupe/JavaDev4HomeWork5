@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class PetService {
 
-    private static final String PET_URL = "https://petstore.swagger.io/v2/pet/";
+    private static final String PET_URL = "https://petstore.swagger.io/v2/pet";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 
@@ -26,5 +26,9 @@ public class PetService {
             e.printStackTrace();
         }
         return  pets;
+    }
+
+    public Pet addPet(Pet pet){
+        return PetUtil.addPet(URI.create(PET_URL), pet);
     }
 }

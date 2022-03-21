@@ -1,13 +1,8 @@
 package ua.goit.hw5.controller;
 
 import ua.goit.hw5.Exception.ExitException;
-import ua.goit.hw5.controller.command.Command;
-import ua.goit.hw5.controller.command.Exit;
-import ua.goit.hw5.controller.command.FindPetsByStatus;
-import ua.goit.hw5.controller.command.Help;
-import ua.goit.hw5.service.OrderService;
-import ua.goit.hw5.service.PetService;
-import ua.goit.hw5.service.UserService;
+import ua.goit.hw5.controller.command.*;
+import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,12 +12,13 @@ public class Controller {
     private final View view;
     private final List<Command> commands;
 
-    public Controller(View view, PetService petService, OrderService orderService, UserService userService) {
+    public Controller(View view, Service service) {
         this.view = view;
         this.commands = new ArrayList<>(Arrays.asList(
                 new Exit(view),
                 new Help(view),
-                new FindPetsByStatus(view, petService)
+                new FindPetsByStatus(view, service),
+                new AddPet(view, service)
         ));
     }
 

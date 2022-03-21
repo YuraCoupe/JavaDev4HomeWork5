@@ -22,5 +22,6 @@ public class Help implements Command{
         view.write("Enter " + HELP.getName() + " to see available commands.");
         view.write("Enter " + EXIT.getName() + " to exit.");
         view.write("Enter " + FIND_PETS_BY_STATUS.getName() + " to find pets by status.");
+        view.write("Enter " + ADD_PET.getName() + " to add pet.");
     }
 }
