@@ -21,7 +21,11 @@ public class Help implements Command{
     public void process() {
         view.write("Enter " + HELP.getName() + " to see available commands.");
         view.write("Enter " + EXIT.getName() + " to exit.");
+        view.write("Enter " + ADD_PET.getName() + " upload pet image.");
+        view.write("Enter " + UPLOAD_PET_IMAGE.getName() + " to add pet.");
         view.write("Enter " + FIND_PETS_BY_STATUS.getName() + " to find pets by status.");
-        view.write("Enter " + ADD_PET.getName() + " to add pet.");
+        view.write("Enter " + FIND_PETS_BY_ID.getName() + " to find pets by ID.");
+        view.write("Enter " + UPDATE_PET_FORM.getName() + " to update pet with form data.");
+        view.write("Enter " + DELETE_PET.getName() + " to delete pet.");
     }
 }

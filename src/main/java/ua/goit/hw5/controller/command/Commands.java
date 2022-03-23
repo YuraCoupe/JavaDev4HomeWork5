@@ -1,8 +1,13 @@
 package ua.goit.hw5.controller.command;
 
 public enum Commands {
-    FIND_PETS_BY_STATUS("findpetsbystatus"),
-    ADD_PET("addpet"),
+    UPLOAD_PET_IMAGE("1"),
+    ADD_PET("2"),
+    UPDATE_PET("3"),
+    FIND_PETS_BY_STATUS("4"),
+    FIND_PETS_BY_ID("5"),
+    UPDATE_PET_FORM("6"),
+    DELETE_PET("7"),
     EXIT("exit"),
     HELP("help");
 
@@ -15,4 +20,4 @@ public enum Commands {
     public String getName() {
         return name;
     }
-    }
+}
