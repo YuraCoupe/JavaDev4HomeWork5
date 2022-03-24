@@ -4,7 +4,6 @@ import ua.goit.hw5.model.Category;
 import ua.goit.hw5.model.Pet;
 import ua.goit.hw5.model.PetStatus;
 import ua.goit.hw5.model.Tag;
-import ua.goit.hw5.service.PetService;
 import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
 
@@ -13,21 +12,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static ua.goit.hw5.controller.command.Commands.ADD_PET;
-import static ua.goit.hw5.controller.command.Commands.FIND_PETS_BY_STATUS;
+import static ua.goit.hw5.controller.command.Commands.UPDATE_PET;
 
-public class AddPet implements Command {
+public class PetUpdater implements Command {
 
     private final View view;
     private final Service service;
 
-    public AddPet(View view, Service service) {
+    public PetUpdater(View view, Service service) {
         this.view = view;
         this.service = service;
     }
 
     @Override
     public boolean canProccess(String input) {
-        return input.equals(ADD_PET.getName());
+        return input.equals(UPDATE_PET.getName());
     }
 
     @Override

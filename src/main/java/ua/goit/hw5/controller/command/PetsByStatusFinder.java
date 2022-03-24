@@ -8,12 +8,12 @@ import java.util.Set;
 
 import static ua.goit.hw5.controller.command.Commands.FIND_PETS_BY_STATUS;
 
-public class FindPetsByStatus implements Command{
+public class PetsByStatusFinder implements Command{
 
     private final View view;
     private final Service service;
 
-    public FindPetsByStatus(View view, Service service) {
+    public PetsByStatusFinder(View view, Service service) {
         this.view = view;
         this.service = service;
     }

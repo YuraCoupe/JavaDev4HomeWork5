@@ -19,7 +19,15 @@ public class Service {
         return petService.findPetsByStatus(status);
     }
 
+    public Pet findPetById(Long id) {
+        return petService.findPetById(id);
+    }
+
     public Pet addPet(Pet pet){
         return petService.addPet(pet);
+    }
+
+    public void uploadPetPhoto(Long id, String metadata, String filename) {
+        petService.uploadPetPhoto(id, metadata, filename);
     }
 }

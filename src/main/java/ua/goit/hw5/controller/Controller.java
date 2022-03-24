@@ -17,8 +17,10 @@ public class Controller {
         this.commands = new ArrayList<>(Arrays.asList(
                 new Exit(view),
                 new Help(view),
-                new FindPetsByStatus(view, service),
-                new AddPet(view, service)
+                new PetsByStatusFinder(view, service),
+                new PetsByIdFinder(view, service),
+                new PetCreator(view, service),
+                new PetPhotoLoader(view, service)
         ));
     }
 
@@ -30,7 +32,7 @@ public class Controller {
     private void executeCommand() {
         try {
             while (true) {
-                view.write("Please, enter help to see available commands");
+                view.write("Please, enter command or enter help to see available commands");
                 String input = view.read();
                 boolean isIncorrectCommand = true;
                 for (Command command : commands) {
