@@ -2,6 +2,7 @@ package ua.goit.hw5.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import ua.goit.hw5.Exception.PetNotFoundException;
 import ua.goit.hw5.controller.util.PetUtil;
 import ua.goit.hw5.model.Pet;
@@ -11,6 +12,7 @@ import java.net.URI;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PetService {
 
@@ -21,25 +23,31 @@ public class PetService {
 
     public Set<Pet> findPetsByStatus(String petStatus) {
         Set<Pet> pets = null;
+        HttpResponse<String> response = null;
         try {
-            pets = PetUtil.findByStatus(URI.create(PET_URL), petStatus);
+            response = PetUtil.findByStatus(URI.create(PET_URL), petStatus);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        List<Pet> petsList = GSON.fromJson(response.body(), new TypeToken<List<Pet>>() {
+        }.getType());
+        pets = petsList.stream().collect(Collectors.toSet());
         return pets;
     }
 
     public Pet findPetById(Long id) {
         Pet pet = null;
+        HttpResponse<String> response = null;
         try {
-            pet = PetUtil.findById(URI.create(PET_URL), id);
+            response = PetUtil.findById(URI.create(PET_URL), id);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        pet = GSON.fromJson(response.body(), Pet.class);
         return pet;
     }
 

@@ -32,7 +32,7 @@ public class PetUtil {
     private static final String ADD_PET = "?";
 
 
-    public static Set<Pet> findByStatus(URI uri, String status) throws IOException, InterruptedException {
+    public static HttpResponse<String> findByStatus(URI uri, String status) throws IOException, InterruptedException {
 
         URI newUri = URI.create(String.format("%s%s%s", uri.toString(), FIND_BY_STATUS, status));
         HttpRequest request = HttpRequest.newBuilder()
@@ -44,13 +44,11 @@ public class PetUtil {
         if (response.statusCode() != 200) {
             throw new PetNotFoundException(String.format("Pet with %s status not found", status));
         }
-        List<Pet> pets = GSON.fromJson(response.body(), new TypeToken<List<Pet>>() {
-        }.getType());
-        Set<Pet> petsSet = pets.stream().collect(Collectors.toSet());
-        return petsSet;
+
+        return response;
     }
 
-    public static Pet findById(URI uri, Long id) throws IOException, InterruptedException {
+    public static HttpResponse<String> findById(URI uri, Long id) throws IOException, InterruptedException {
 
         URI newUri = URI.create(String.format("%s%s%d", uri.toString(), "/", id));
         HttpRequest request = HttpRequest.newBuilder()
@@ -62,8 +60,7 @@ public class PetUtil {
         if (response.statusCode() != 200) {
             throw new PetNotFoundException(String.format("Pet with id %d not found", id));
         }
-        Pet pet = GSON.fromJson(response.body(), Pet.class);
-        return pet;
+        return response;
     }
 
     public static HttpResponse<String> addPet(URI uri, Pet pet) {
@@ -105,7 +102,7 @@ public class PetUtil {
         return response;
     }
 
-    public static void uploadPetPhoto(URI uri, String metadata, String filename) {
+    public static CloseableHttpResponse uploadPetPhoto(URI uri, String metadata, String filename) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost uploadFile = new HttpPost(uri);
 
@@ -124,8 +121,6 @@ public class PetUtil {
             e.printStackTrace();
         }
 
-        System.out.println(f.getName());
-
         HttpEntity multipart = builder.build();
         uploadFile.setEntity(multipart);
         CloseableHttpResponse response = null;
@@ -134,7 +129,6 @@ public class PetUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        HttpEntity responseEntity = response.getEntity();
-        System.out.println(response.getStatusLine());
+        return response;
     }
 }
