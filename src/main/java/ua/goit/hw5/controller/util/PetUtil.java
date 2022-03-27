@@ -66,7 +66,7 @@ public class PetUtil {
         return pet;
     }
 
-    public static Pet addPet(URI uri, Pet pet) {
+    public static HttpResponse<String> addPet(URI uri, Pet pet) {
         String petGson = GSON.toJson(pet);
         URI newUri = URI.create(String.format("%s%s", uri.toString(), ADD_PET));
         HttpRequest request = HttpRequest.newBuilder()
@@ -74,16 +74,15 @@ public class PetUtil {
                 .POST(HttpRequest.BodyPublishers.ofString(petGson))
                 .header("Content-type", "application/json")
                 .build();
+        HttpResponse<String> response = null;
         try {
-            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.statusCode());
-            return GSON.fromJson(response.body(), Pet.class);
+            response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return null;
+        return response;
     }
 
     public static HttpResponse<String> updatePet(URI uri, Pet pet) {

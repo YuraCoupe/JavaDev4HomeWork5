@@ -31,12 +31,20 @@ public class PetUpdater implements Command {
 
     @Override
     public void process() {
-        view.write("Enter pet ID to update");
-        Long id = Long.parseLong(view.read());
+        Long id;
+        while (true) {
+            view.write("Enter pet id to update");
+            String petIdString = view.read();
+            try {
+                id = Long.parseLong(petIdString);
+                break;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                view.write("Incorrect number. Please, try again");
+            }
+        }
         Pet pet = service.findPetById(id);
-
         view.write("Enter new data to update pet or leave blank to leave previous data");
-
         Long categoryId;
         String categoryIdString;
         while (true) {

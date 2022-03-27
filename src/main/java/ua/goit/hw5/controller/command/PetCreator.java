@@ -30,10 +30,30 @@ public class PetCreator implements Command {
 
     @Override
     public void process() {
-        view.write("Enter pet ID");
-        Long id = Long.parseLong(view.read());
-        view.write("Enter pet category ID");
-        int categoryId = Integer.parseInt(view.read());
+        Long id;
+        while (true) {
+            view.write("Enter pet id");
+            String petIdString = view.read();
+            try {
+                id = Long.parseLong(petIdString);
+                break;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                view.write("Incorrect number. Please, try again");
+            }
+        }
+        Long categoryId;
+        while (true) {
+            view.write("Enter pet category id");
+            String petIdString = view.read();
+            try {
+                categoryId = Long.parseLong(petIdString);
+                break;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                view.write("Incorrect number. Please, try again");
+            }
+        }
         view.write("Enter pet category name");
         String categoryName = view.read();
         view.write("Enter pet name");
@@ -43,8 +63,18 @@ public class PetCreator implements Command {
         Arrays.stream(view.read().split("\s+")).forEach(url -> photoUrls.add(url));
         Set<Tag> tags = new HashSet<>();
         while (true) {
-            view.write("Enter pet tag ID");
-            int tagId = Integer.parseInt(view.read());
+            Integer tagId;
+            while (true) {
+                view.write("Enter pet tag id");
+                String petIdString = view.read();
+                try {
+                    tagId = Integer.parseInt(petIdString);
+                    break;
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    view.write("Incorrect number. Please, try again");
+                }
+            }
             view.write("Enter pet tag name");
             String tagName = view.read();
             tags.add(new Tag(tagId, tagName));
@@ -78,6 +108,5 @@ public class PetCreator implements Command {
         Pet pet = new Pet(id, category, name, photoUrls, tags, petStatus);
         service.addPet(pet);
         view.write("Pet added.");
-
     }
 }

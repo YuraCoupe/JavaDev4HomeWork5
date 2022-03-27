@@ -44,7 +44,9 @@ public class PetService {
     }
 
     public Pet addPet(Pet pet) {
-        return PetUtil.addPet(URI.create(PET_URL), pet);
+        HttpResponse<String> response = PetUtil.addPet(URI.create(PET_URL), pet);
+        Pet addedPet = GSON.fromJson(response.body(), Pet.class);
+        return addedPet;
     }
 
     public Pet updatePet(Pet pet) {
