@@ -27,6 +27,10 @@ public class Service {
         return petService.addPet(pet);
     }
 
+    public Pet updatePet(Pet pet) {
+        return petService.updatePet(pet);
+    }
+
     public void uploadPetPhoto(Long id, String metadata, String filename) {
         petService.uploadPetPhoto(id, metadata, filename);
     }

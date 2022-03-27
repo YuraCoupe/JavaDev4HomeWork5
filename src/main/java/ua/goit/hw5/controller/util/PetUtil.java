@@ -63,7 +63,6 @@ public class PetUtil {
             throw new PetNotFoundException(String.format("Pet with id %d not found", id));
         }
         Pet pet = GSON.fromJson(response.body(), Pet.class);
-        System.out.println(response.statusCode());
         return pet;
     }
 
@@ -85,6 +84,26 @@ public class PetUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static HttpResponse<String> updatePet(URI uri, Pet pet) {
+        String petGson = GSON.toJson(pet);
+        URI newUri = URI.create(String.format("%s%s", uri.toString(), ADD_PET));
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(newUri)
+                .POST(HttpRequest.BodyPublishers.ofString(petGson))
+                .header("Content-type", "application/json")
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     public static void uploadPetPhoto(URI uri, String metadata, String filename) {

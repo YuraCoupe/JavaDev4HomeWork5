@@ -20,7 +20,8 @@ public class Controller {
                 new PetsByStatusFinder(view, service),
                 new PetsByIdFinder(view, service),
                 new PetCreator(view, service),
-                new PetPhotoLoader(view, service)
+                new PetPhotoLoader(view, service),
+                new PetUpdater(view, service)
         ));
     }
 

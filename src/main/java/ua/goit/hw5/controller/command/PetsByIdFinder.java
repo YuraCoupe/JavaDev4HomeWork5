@@ -35,7 +35,7 @@ public class PetsByIdFinder implements Command{
                 break;
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                view.write("Incorrect status. Please, try again");
+                view.write("Incorrect number. Please, try again");
             }
         }
         Pet pet = service.findPetById(petId);

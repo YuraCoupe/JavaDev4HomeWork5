@@ -31,7 +31,7 @@ public class PetCreator implements Command {
     @Override
     public void process() {
         view.write("Enter pet ID");
-        int id = Integer.parseInt(view.read());
+        Long id = Long.parseLong(view.read());
         view.write("Enter pet category ID");
         int categoryId = Integer.parseInt(view.read());
         view.write("Enter pet category name");
@@ -77,6 +77,7 @@ public class PetCreator implements Command {
         Category category = new Category(categoryId, categoryName);
         Pet pet = new Pet(id, category, name, photoUrls, tags, petStatus);
         service.addPet(pet);
+        view.write("Pet added.");
 
     }
 }
