@@ -7,6 +7,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
@@ -174,6 +175,21 @@ public class PetUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return response;
+    }
+
+    public static CloseableHttpResponse deletePet(URI uri, Long id) {
+        URI newUri = URI.create(String.format("%s%s%d", uri.toString(), "/", id));
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpDelete deletePet = new HttpDelete(newUri);
+
+        CloseableHttpResponse response = null;
+        try {
+            response = httpClient.execute(deletePet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return response;
     }
 }

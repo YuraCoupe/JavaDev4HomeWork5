@@ -38,4 +38,8 @@ public class Service {
     public void updatePetWithFormData (Long id, String name, String status) {
         petService.updatePetWithFormData(id, name, status);
     }
+
+    public void deletePet(Long id) {
+        petService.deletePet(id);
+    }
 }

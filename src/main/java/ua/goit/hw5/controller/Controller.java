@@ -22,7 +22,8 @@ public class Controller {
                 new PetCreator(view, service),
                 new PetPhotoLoader(view, service),
                 new PetUpdater(view, service),
-                new PetFormDataUpdater(view, service)
+                new PetFormDataUpdater(view, service),
+                new PetDeleter(view, service)
         ));
     }
 

@@ -72,4 +72,8 @@ public class PetService {
     public void updatePetWithFormData(Long id, String name, String status) {
         PetUtil.updatePetWithFormData(URI.create(PET_URL), id, name, status);
     }
+
+    public void deletePet(Long id) {
+        PetUtil.deletePet(URI.create(PET_URL), id);
+    }
 }
