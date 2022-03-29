@@ -34,4 +34,8 @@ public class Service {
     public void uploadPetPhoto(Long id, String metadata, String filename) {
         petService.uploadPetPhoto(id, metadata, filename);
     }
+
+    public void updatePetWithFormData (Long id, String name, String status) {
+        petService.updatePetWithFormData(id, name, status);
+    }
 }

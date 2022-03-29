@@ -1,35 +1,28 @@
 package ua.goit.hw5.controller.command;
 
-import ua.goit.hw5.model.Category;
 import ua.goit.hw5.model.Pet;
 import ua.goit.hw5.model.PetStatus;
-import ua.goit.hw5.model.Tag;
 import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
-import static ua.goit.hw5.controller.command.Commands.ADD_PET;
+import static ua.goit.hw5.controller.command.Commands.UPDATE_PET_FORM;
 import static ua.goit.hw5.controller.command.Commands.UPLOAD_PET_IMAGE;
 
-public class PetPhotoLoader implements Command {
+public class PetFormDataUpdater implements Command {
 
     private final View view;
     private final Service service;
 
-    public PetPhotoLoader(View view, Service service) {
+    public PetFormDataUpdater(View view, Service service) {
         this.view = view;
         this.service = service;
     }
 
     @Override
     public boolean canProccess(String input) {
-        return input.equals(UPLOAD_PET_IMAGE.getName());
+        return input.equals(UPDATE_PET_FORM.getName());
     }
 
     @Override
@@ -46,19 +39,14 @@ public class PetPhotoLoader implements Command {
                 view.write("Incorrect number. Please, try again");
             }
         }
-        service.findPetById(id);
-        view.write("Enter metadata");
-        String metadata = view.read();
+        Pet pet = service.findPetById(id);
+        view.write(String.format("Enter new pet name. Actual pet name is %s", pet.getName()));
+        String name = view.read();
 
-        File file = new File("/");
-        /*Desktop desktop = Desktop.getDesktop();
-        try {
-            desktop.open(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        view.write(String.format("Enter new pet status. Actual pet status is %s", pet.getStatus()));
+        String status = view.read();
 
-        service.uploadPetPhoto(id, metadata, file.getName());
-
+        service.updatePetWithFormData(id, name, status);
+        view.write("Pet data updated");
     }
 }

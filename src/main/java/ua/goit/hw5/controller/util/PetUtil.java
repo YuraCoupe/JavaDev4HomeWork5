@@ -4,8 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -21,6 +24,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -126,6 +130,47 @@ public class PetUtil {
         CloseableHttpResponse response = null;
         try {
             response = httpClient.execute(uploadFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public static CloseableHttpResponse updatePetWithFormData(URI uri, Long id, String name, String status) {
+        URI newUri = URI.create(String.format("%s%s%d", uri.toString(), "/", id));
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost updatePet = new HttpPost(newUri);
+        EntityBuilder builder = EntityBuilder.create();
+
+        NameValuePair namePair = new NameValuePair() {
+            @Override
+            public String getName() {
+                return "name";
+            }
+
+            @Override
+            public String getValue() {
+                return name;
+            }
+        };NameValuePair statusPair = new NameValuePair() {
+            @Override
+            public String getName() {
+                return "status";
+            }
+
+            @Override
+            public String getValue() {
+                return status;
+            }
+        };
+
+        builder.setParameters(namePair, statusPair);
+
+        HttpEntity entity = builder.build();
+        updatePet.setEntity(entity);
+        CloseableHttpResponse response = null;
+        try {
+            response = httpClient.execute(updatePet);
         } catch (IOException e) {
             e.printStackTrace();
         }

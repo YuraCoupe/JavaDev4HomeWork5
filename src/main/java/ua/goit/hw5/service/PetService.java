@@ -3,6 +3,8 @@ package ua.goit.hw5.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import ua.goit.hw5.Exception.PetNotFoundException;
 import ua.goit.hw5.controller.util.PetUtil;
 import ua.goit.hw5.model.Pet;
@@ -65,5 +67,9 @@ public class PetService {
 
     public void uploadPetPhoto(Long id, String metadata, String filename) {
         PetUtil.uploadPetPhoto(URI.create(String.format(UPLOAD_PET_PHOTO_URL, id)), metadata, filename);
+    }
+
+    public void updatePetWithFormData(Long id, String name, String status) {
+        PetUtil.updatePetWithFormData(URI.create(PET_URL), id, name, status);
     }
 }
