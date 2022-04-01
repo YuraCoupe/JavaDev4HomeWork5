@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import ua.goit.hw5.controller.util.PetUtil;
 import ua.goit.hw5.model.Pet;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpResponse;
@@ -51,7 +52,10 @@ public class PetService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        pet = GSON.fromJson(response.body(), Pet.class);
+        int responseStatus = response.statusCode();
+        if (responseStatus == 200) {
+            pet = GSON.fromJson(response.body(), Pet.class);
+        }
         return pet;
     }
 
@@ -69,9 +73,9 @@ public class PetService {
         return updatedPet;
     }
 
-    public void uploadPetPhoto(Long id, String metadata, String filename) {
+    public void uploadPetPhoto(Long id, String metadata, File file) {
         URI uri = URI.create(String.format(UPLOAD_PET_PHOTO_URL, id));
-        PetUtil.uploadPetPhoto(uri, metadata, filename);
+        PetUtil.uploadPetPhoto(uri, metadata, file);
     }
 
     public void updatePetWithFormData(Long id, String name, String status) {

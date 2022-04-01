@@ -38,7 +38,6 @@ public class PetCreator implements Command {
                 id = Long.parseLong(petIdString);
                 break;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
                 view.write("Incorrect number. Please, try again");
             }
         }
@@ -50,7 +49,6 @@ public class PetCreator implements Command {
                 categoryId = Long.parseLong(petIdString);
                 break;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
                 view.write("Incorrect number. Please, try again");
             }
         }
@@ -71,7 +69,6 @@ public class PetCreator implements Command {
                     tagId = Integer.parseInt(petIdString);
                     break;
                 } catch (NumberFormatException e) {
-                    e.printStackTrace();
                     view.write("Incorrect number. Please, try again");
                 }
             }

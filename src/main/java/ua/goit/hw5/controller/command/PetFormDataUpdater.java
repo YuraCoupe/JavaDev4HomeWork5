@@ -31,7 +31,6 @@ public class PetFormDataUpdater implements Command {
                 id = Long.parseLong(petIdString);
                 break;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
                 view.write("Incorrect number. Please, try again");
             }
         }

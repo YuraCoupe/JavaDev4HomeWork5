@@ -32,23 +32,27 @@ public class PetPhotoLoader implements Command {
                 id = Long.parseLong(petIdString);
                 break;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
                 view.write("Incorrect number. Please, try again");
             }
         }
         service.findPetById(id);
         view.write("Enter metadata");
         String metadata = view.read();
+        File file = null;
 
-        File file = new File("/");
-        /*Desktop desktop = Desktop.getDesktop();
-        try {
-            desktop.open(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        while (true) {
+            view.write("Enter file path and name");
+            String filename = view.read();
+            file = new File(filename);
+            if(file.exists()) {
+                break;
+            } else {
+                view.write("File doesn't exist. Please, try again");
+            }
+        }
 
-        service.uploadPetPhoto(id, metadata, file.getName());
+        service.uploadPetPhoto(id, metadata, file);
+        view.write("Photo successfully added");
 
     }
 }

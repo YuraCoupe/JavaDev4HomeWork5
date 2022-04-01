@@ -2,6 +2,7 @@ package ua.goit.hw5.service;
 
 import ua.goit.hw5.model.Pet;
 
+import java.io.File;
 import java.util.Set;
 
 public class Service {
@@ -31,8 +32,8 @@ public class Service {
         return petService.updatePet(pet);
     }
 
-    public void uploadPetPhoto(Long id, String metadata, String filename) {
-        petService.uploadPetPhoto(id, metadata, filename);
+    public void uploadPetPhoto(Long id, String metadata, File file) {
+        petService.uploadPetPhoto(id, metadata, file);
     }
 
     public void updatePetWithFormData (Long id, String name, String status) {

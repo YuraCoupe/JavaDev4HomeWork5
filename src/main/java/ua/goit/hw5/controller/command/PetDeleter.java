@@ -30,7 +30,6 @@ public class PetDeleter implements Command{
                 petId = Long.parseLong(petIdString);
                 break;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
                 view.write("Incorrect number. Please, try again");
             }
         }

@@ -106,7 +106,6 @@ public class PetUpdater implements Command {
                     tagId = Integer.parseInt(tagIdString);
                     break;
                 } catch (NumberFormatException e) {
-                    e.printStackTrace();
                     view.write("Incorrect number. Please, try again");
                 }
             }

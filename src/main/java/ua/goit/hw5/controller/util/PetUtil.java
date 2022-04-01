@@ -90,19 +90,18 @@ public class PetUtil {
         return response;
     }
 
-    public static CloseableHttpResponse uploadPetPhoto(URI uri, String metadata, String filename) {
+    public static CloseableHttpResponse uploadPetPhoto(URI uri, String metadata, File file) {
         HttpPost uploadFile = new HttpPost(uri);
 
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addTextBody("additionalMetadata", "blablabla", ContentType.TEXT_PLAIN);
 
-        File f = new File("src/main/resources/photo/tiger.jpeg");
         try {
             builder.addBinaryBody(
                     "file",
-                    new FileInputStream(f),
+                    new FileInputStream(file),
                     ContentType.APPLICATION_OCTET_STREAM,
-                    f.getName()
+                    file.getName()
             );
         } catch (FileNotFoundException e) {
             e.printStackTrace();

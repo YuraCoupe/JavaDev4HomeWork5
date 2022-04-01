@@ -4,6 +4,8 @@ import ua.goit.hw5.model.Pet;
 import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
 
+import java.util.Objects;
+
 import static ua.goit.hw5.controller.command.Commands.FIND_PETS_BY_ID;
 
 public class PetsByIdFinder implements Command{
@@ -31,12 +33,15 @@ public class PetsByIdFinder implements Command{
                 petId = Long.parseLong(petIdString);
                 break;
             } catch (NumberFormatException e) {
-                e.printStackTrace();
                 view.write("Incorrect number. Please, try again");
             }
         }
         Pet pet = service.findPetById(petId);
-        view.write("Pet with ID " + petId + " data:");
-        view.write(pet.toString());
+        if (!Objects.isNull(pet)) {
+            view.write("Pet with ID " + petId + " data:");
+            view.write(pet.toString());
+        } else {
+            view.write("Pet with ID " + petId + " not found");
+        }
     }
 }
