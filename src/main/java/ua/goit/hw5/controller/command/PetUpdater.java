@@ -87,41 +87,48 @@ public class PetUpdater implements Command {
 
         Set<Tag> tags = new HashSet<>();
         view.write(String.format("Actual pet tags are %s.", pet.getTags()));
-        while (true) {
-            int tagId = 0;
-            String tagIdString;
 
-                while (true) {
-                    view.write("Enter pet tag ID");
-                    tagIdString = view.read();
-                    if (tagIdString.equals("")) {
-                        tags.addAll(pet.getTags());
-                        break;
-                    }
-                    try {
-                        tagId = Integer.parseInt(tagIdString);
-                        break;
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        view.write("Incorrect number. Please, try again");
-                    }
-                }
-                view.write("Enter pet tag name");
-                String tagName = view.read();
-                tags.add(new Tag(tagId, tagName));
-                String answer;
-                while (true) {
-                    view.write("Would you like to add one more tag? Write yes or no:");
-                    answer = view.read();
-                    if (answer.equals("no") | answer.equals("yes")) {
-                        break;
-                    }
-                    view.write("Incorrect command. Write yes or no, please");
-                }
-                if (answer.equals("no")) {
+        boolean leaveExistedTags = false;
+        int tagId = 0;
+        String tagIdString;
+
+        while (true) {
+
+            while (true) {
+                view.write("Enter pet tag ID");
+                tagIdString = view.read();
+                if (tagIdString.equals("") & tags.isEmpty()) {
+                    tags.addAll(pet.getTags());
+                    leaveExistedTags = true;
                     break;
                 }
+                try {
+                    tagId = Integer.parseInt(tagIdString);
+                    break;
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    view.write("Incorrect number. Please, try again");
+                }
             }
+            if (leaveExistedTags == true) {
+                break;
+            }
+            view.write("Enter pet tag name");
+            String tagName = view.read();
+            tags.add(new Tag(tagId, tagName));
+            String answer;
+            while (true) {
+                view.write("Would you like to add one more tag? Write yes or no:");
+                answer = view.read();
+                if (answer.equals("no") | answer.equals("yes")) {
+                    break;
+                }
+                view.write("Incorrect command. Write yes or no, please");
+            }
+            if (answer.equals("no")) {
+                break;
+            }
+        }
 
         String status;
         while (true) {
