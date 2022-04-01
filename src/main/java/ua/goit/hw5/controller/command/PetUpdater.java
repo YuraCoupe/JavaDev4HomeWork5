@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static ua.goit.hw5.controller.command.Commands.ADD_PET;
 import static ua.goit.hw5.controller.command.Commands.UPDATE_PET;
 
 public class PetUpdater implements Command {
@@ -90,18 +89,22 @@ public class PetUpdater implements Command {
         view.write(String.format("Actual pet tags are %s.", pet.getTags()));
         while (true) {
             int tagId = 0;
-            view.write("Enter pet tag ID");
-            String tagIdString = view.read();
-            if (tagIdString.equals("")) {
-                tags.addAll(pet.getTags());
-                break;
-            } else {
-                try {
-                    tagId = Integer.parseInt(view.read());
-                    break;
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    view.write("Incorrect number. Please, try again");
+            String tagIdString;
+
+                while (true) {
+                    view.write("Enter pet tag ID");
+                    tagIdString = view.read();
+                    if (tagIdString.equals("")) {
+                        tags.addAll(pet.getTags());
+                        break;
+                    }
+                    try {
+                        tagId = Integer.parseInt(tagIdString);
+                        break;
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        view.write("Incorrect number. Please, try again");
+                    }
                 }
                 view.write("Enter pet tag name");
                 String tagName = view.read();
@@ -119,7 +122,6 @@ public class PetUpdater implements Command {
                     break;
                 }
             }
-        }
 
         String status;
         while (true) {

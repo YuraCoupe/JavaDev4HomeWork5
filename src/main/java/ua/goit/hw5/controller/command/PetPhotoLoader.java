@@ -1,20 +1,10 @@
 package ua.goit.hw5.controller.command;
 
-import ua.goit.hw5.model.Category;
-import ua.goit.hw5.model.Pet;
-import ua.goit.hw5.model.PetStatus;
-import ua.goit.hw5.model.Tag;
 import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
-import static ua.goit.hw5.controller.command.Commands.ADD_PET;
 import static ua.goit.hw5.controller.command.Commands.UPLOAD_PET_IMAGE;
 
 public class PetPhotoLoader implements Command {

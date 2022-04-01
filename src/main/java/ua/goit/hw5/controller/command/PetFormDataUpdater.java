@@ -1,14 +1,10 @@
 package ua.goit.hw5.controller.command;
 
 import ua.goit.hw5.model.Pet;
-import ua.goit.hw5.model.PetStatus;
 import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
 
-import java.io.File;
-
 import static ua.goit.hw5.controller.command.Commands.UPDATE_PET_FORM;
-import static ua.goit.hw5.controller.command.Commands.UPLOAD_PET_IMAGE;
 
 public class PetFormDataUpdater implements Command {
 

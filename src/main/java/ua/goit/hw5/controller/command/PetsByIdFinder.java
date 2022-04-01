@@ -4,10 +4,7 @@ import ua.goit.hw5.model.Pet;
 import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
 
-import java.util.Set;
-
 import static ua.goit.hw5.controller.command.Commands.FIND_PETS_BY_ID;
-import static ua.goit.hw5.controller.command.Commands.FIND_PETS_BY_STATUS;
 
 public class PetsByIdFinder implements Command{
 

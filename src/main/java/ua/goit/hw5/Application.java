@@ -3,10 +3,7 @@ package ua.goit.hw5;
 
 import ua.goit.hw5.controller.Controller;
 import ua.goit.hw5.controller.util.PetUtil;
-import ua.goit.hw5.service.OrderService;
-import ua.goit.hw5.service.PetService;
 import ua.goit.hw5.service.Service;
-import ua.goit.hw5.service.UserService;
 import ua.goit.hw5.view.Console;
 import ua.goit.hw5.view.View;
 

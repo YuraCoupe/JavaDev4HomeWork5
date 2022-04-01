@@ -1,11 +1,9 @@
 package ua.goit.hw5.controller.command;
 
-import ua.goit.hw5.model.Pet;
 import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
 
 import static ua.goit.hw5.controller.command.Commands.DELETE_PET;
-import static ua.goit.hw5.controller.command.Commands.FIND_PETS_BY_ID;
 
 public class PetDeleter implements Command{
 

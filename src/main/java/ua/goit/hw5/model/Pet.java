@@ -1,6 +1,5 @@
 package ua.goit.hw5.model;
 
-import java.util.Arrays;
 import java.util.Set;
 
 public class Pet {
