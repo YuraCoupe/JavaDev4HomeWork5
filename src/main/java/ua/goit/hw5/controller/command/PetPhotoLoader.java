@@ -40,15 +40,11 @@ public class PetPhotoLoader implements Command {
                 } else {
                     view.write("Pet with ID " + id + " doesn't exist.");
                 }
-                break;
             } catch (NumberFormatException e) {
                 view.write("Incorrect number. Please, try again");
             }
         }
 
-
-
-        service.findPetById(id);
         view.write("Enter metadata");
         String metadata = view.read();
         File file = null;

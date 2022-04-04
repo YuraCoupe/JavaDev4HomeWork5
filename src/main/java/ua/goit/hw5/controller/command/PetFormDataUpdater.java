@@ -39,7 +39,6 @@ public class PetFormDataUpdater implements Command {
                 } else {
                     view.write("Pet with ID " + id + " doesn't exist.");
                 }
-                break;
             } catch (NumberFormatException e) {
                 view.write("Incorrect number. Please, try again");
             }
