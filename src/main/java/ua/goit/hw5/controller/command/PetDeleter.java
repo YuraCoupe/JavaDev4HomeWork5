@@ -1,7 +1,10 @@
 package ua.goit.hw5.controller.command;
 
+import ua.goit.hw5.model.Pet;
 import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
+
+import java.util.Objects;
 
 import static ua.goit.hw5.controller.command.Commands.DELETE_PET;
 
@@ -22,20 +25,27 @@ public class PetDeleter implements Command{
 
     @Override
     public void process() {
-        Long petId;
+        Long id;
+        Pet pet;
         while (true) {
             view.write("Enter pet id");
             String petIdString = view.read();
             try {
-                petId = Long.parseLong(petIdString);
+                id = Long.parseLong(petIdString);
+                pet = service.findPetById(id);
+                if (!Objects.isNull(pet)) {
+                    break;
+                } else {
+                    view.write("Pet with ID " + id + " doesn't exist.");
+                }
                 break;
             } catch (NumberFormatException e) {
                 view.write("Incorrect number. Please, try again");
             }
         }
-        service.findPetById(petId);
+        service.findPetById(id);
 
-        service.deletePet(petId);
-        view.write("Pet with ID " + petId + " deleted.");
+        service.deletePet(id);
+        view.write("Pet with ID " + id + " deleted.");
     }
 }

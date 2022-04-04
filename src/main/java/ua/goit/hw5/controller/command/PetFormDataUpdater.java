@@ -4,6 +4,8 @@ import ua.goit.hw5.model.Pet;
 import ua.goit.hw5.service.Service;
 import ua.goit.hw5.view.View;
 
+import java.util.Objects;
+
 import static ua.goit.hw5.controller.command.Commands.UPDATE_PET_FORM;
 
 public class PetFormDataUpdater implements Command {
@@ -24,17 +26,24 @@ public class PetFormDataUpdater implements Command {
     @Override
     public void process() {
         Long id;
+        Pet pet;
+
         while (true) {
             view.write("Enter pet id to update");
             String petIdString = view.read();
             try {
                 id = Long.parseLong(petIdString);
+                pet = service.findPetById(id);
+                if (!Objects.isNull(pet)) {
+                    break;
+                } else {
+                    view.write("Pet with ID " + id + " doesn't exist.");
+                }
                 break;
             } catch (NumberFormatException e) {
                 view.write("Incorrect number. Please, try again");
             }
         }
-        Pet pet = service.findPetById(id);
         view.write(String.format("Enter new pet name. Actual pet name is %s", pet.getName()));
         String name = view.read();
 

@@ -9,6 +9,7 @@ import ua.goit.hw5.view.View;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static ua.goit.hw5.controller.command.Commands.UPDATE_PET;
@@ -31,18 +32,23 @@ public class PetUpdater implements Command {
     @Override
     public void process() {
         Long id;
+        Pet pet;
+
         while (true) {
             view.write("Enter pet id to update");
             String petIdString = view.read();
             try {
                 id = Long.parseLong(petIdString);
-                break;
+                pet = service.findPetById(id);
+                if (!Objects.isNull(pet)) {
+                    break;
+                } else {
+                    view.write("Pet with ID " + id + " doesn't exist.");
+                }
             } catch (NumberFormatException e) {
-                e.printStackTrace();
                 view.write("Incorrect number. Please, try again");
             }
         }
-        Pet pet = service.findPetById(id);
         view.write("Enter new data to update pet or leave blank to leave previous data");
         Long categoryId;
         String categoryIdString;
