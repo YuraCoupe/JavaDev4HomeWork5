@@ -29,6 +29,7 @@ public class PetCreator implements Command {
     }
 
     @Override
+    //could we decompose the method? Maybe we can reuse some code? I would extract several private methods
     public void process() {
         Long id;
         while (true) {
@@ -58,7 +59,7 @@ public class PetCreator implements Command {
         String name = view.read();
         view.write("Enter pet url links divided with blank");
         Set<String> photoUrls = new HashSet<>();
-        Arrays.stream(view.read().split("\s+")).forEach(url -> photoUrls.add(url));
+        Arrays.stream(view.read().split("\\s+")).forEach(url -> photoUrls.add(url));
         Set<Tag> tags = new HashSet<>();
         while (true) {
             Integer tagId;
@@ -92,10 +93,12 @@ public class PetCreator implements Command {
         while (true) {
             view.write("Enter pets status (choose from available, pending, sold)");
             status = view.read();
+            // here we created the boolean value
             boolean isIncorrectCommand = true;
             if (status.equals("available") | status.equals("pending") | status.equals("sold")) {
                 break;
             }
+            //and without any possibility to change the value here we have if statement. Does it make sense?
             if (isIncorrectCommand) {
                 view.write("Incorrect status. Please, try again");
             }

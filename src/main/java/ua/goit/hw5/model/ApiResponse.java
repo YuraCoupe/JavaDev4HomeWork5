@@ -1,5 +1,6 @@
 package ua.goit.hw5.model;
 
+//Here I also didn't find any usages :\
 public class ApiResponse {
     private int code;
     private String type;

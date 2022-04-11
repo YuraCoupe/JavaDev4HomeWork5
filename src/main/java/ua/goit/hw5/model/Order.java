@@ -1,5 +1,6 @@
 package ua.goit.hw5.model;
 
+//unused?
 public class Order {
     private long id;
     private long petId;

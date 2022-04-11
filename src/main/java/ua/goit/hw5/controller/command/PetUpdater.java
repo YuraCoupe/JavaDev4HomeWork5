@@ -30,6 +30,7 @@ public class PetUpdater implements Command {
     }
 
     @Override
+    //try to separate the code in more methods and reuse the code if possible
     public void process() {
         Long id;
         Pet pet;
@@ -87,7 +88,7 @@ public class PetUpdater implements Command {
         if (urls.equals("")) {
             photoUrls.addAll(pet.getPhotoUrls());
         } else {
-            Arrays.stream(urls.split("\s+")).forEach(url -> photoUrls.add(url));
+            Arrays.stream(urls.split("\\s+")).forEach(url -> photoUrls.add(url));
         }
 
 

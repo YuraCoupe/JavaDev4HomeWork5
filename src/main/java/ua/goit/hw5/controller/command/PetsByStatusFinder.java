@@ -34,6 +34,7 @@ public class PetsByStatusFinder implements Command{
             if (petStatus.equals("available") | petStatus.equals("pending") | petStatus.equals("sold")) {
                 break;
             }
+            //the same as in PetCreator. The if statement is unnecessary
             if (isIncorrectCommand) {
                 view.write("Incorrect status. Please, try again");
             }
