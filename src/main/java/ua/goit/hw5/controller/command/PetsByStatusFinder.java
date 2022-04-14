@@ -30,14 +30,10 @@ public class PetsByStatusFinder implements Command{
         while (true) {
             view.write("Enter pets status (choose from available, pending, sold)");
             petStatus = view.read();
-            boolean isIncorrectCommand = true;
             if (petStatus.equals("available") | petStatus.equals("pending") | petStatus.equals("sold")) {
                 break;
             }
-            //the same as in PetCreator. The if statement is unnecessary
-            if (isIncorrectCommand) {
                 view.write("Incorrect status. Please, try again");
-            }
         }
         Set<Pet> pets = service.findPetsByStatus(petStatus);
         if (!pets.isEmpty()) {

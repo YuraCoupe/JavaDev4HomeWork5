@@ -63,10 +63,7 @@ public class PetUtil {
         HttpResponse<String> response = null;
         try {
             response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-            // if we have the same behavior for several catch statements we can use || and check the both exeptions
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return response;
@@ -83,9 +80,7 @@ public class PetUtil {
         HttpResponse<String> response = null;
         try {
             response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return response;

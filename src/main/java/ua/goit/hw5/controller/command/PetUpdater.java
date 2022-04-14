@@ -32,93 +32,54 @@ public class PetUpdater implements Command {
     @Override
     //try to separate the code in more methods and reuse the code if possible
     public void process() {
-        Long id;
-        Pet pet;
+        Long id = getaLong("Enter pet id to update");
+        Pet pet = service.findPetById(id);
 
-        while (true) {
-            view.write("Enter pet id to update");
-            String petIdString = view.read();
-            try {
-                id = Long.parseLong(petIdString);
-                pet = service.findPetById(id);
-                if (!Objects.isNull(pet)) {
-                    break;
-                } else {
-                    view.write("Pet with ID " + id + " doesn't exist.");
-                }
-            } catch (NumberFormatException e) {
-                view.write("Incorrect number. Please, try again");
-            }
-        }
-        view.write("Enter new data to update pet or leave blank to leave previous data");
-        Long categoryId;
-        String categoryIdString;
-        while (true) {
-            view.write(String.format("Actual pet category ID is %d. Enter pet category ID", pet.getCategory().getId()));
-            categoryIdString = view.read();
-            if (categoryIdString.equals("")) {
-                categoryId = pet.getCategory().getId();
-                break;
-            } else {
-                try {
-                    categoryId = Long.parseLong(categoryIdString);
-                    break;
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    view.write("Incorrect number. Please, try again");
-                }
-            }
-        }
-
-        view.write(String.format("Actual pet category name is %s. Enter pet category name", pet.getCategory().getName()));
-        String categoryName = view.read();
-        if (categoryName.equals("")) {
-            categoryName = pet.getCategory().getName();
-        }
-
-        view.write(String.format("Actual pet name is %s. Enter pet name", pet.getName()));
-        String name = view.read();
-        if (name.equals("")) {
-            name = pet.getName();
-        }
-
-        view.write(String.format("Actual pet urls are %s. Enter pet urls divided with spaces", pet.getPhotoUrls()));
-        String urls = view.read();
-        Set<String> photoUrls = new HashSet<>();
-        if (urls.equals("")) {
-            photoUrls.addAll(pet.getPhotoUrls());
+        if (Objects.isNull(pet)) {
+            view.write("Pet with ID " + id + " doesn't exist.");
         } else {
-            Arrays.stream(urls.split("\\s+")).forEach(url -> photoUrls.add(url));
-        }
 
+            view.write("Enter new data to update pet or leave blank to leave previous data");
+
+            Long categoryId = getaLong(String.format("Actual pet category ID is %d. Enter pet category ID", pet.getCategory().getId()));
+            if (Objects.isNull(categoryId)) {
+                categoryId = pet.getCategory().getId();
+            }
+
+            String categoryName = getString("Actual pet category name is %s. Enter pet category name", pet.getCategory().getName());
+
+            String name = getString("Actual pet name is %s. Enter pet name", pet.getName());
+
+            Set<String> photoUrls = getUrls(pet.getPhotoUrls());
+
+            Set<Tag> tags = getTags(pet.getTags());
+
+            String status = pet.getStatus().toString();
+            status = getStatus(status);
+            PetStatus petStatus = PetStatus.valueOf(status.toUpperCase());
+
+            Category category = new Category(categoryId, categoryName);
+
+            Pet updatedPet = new Pet(id, category, name, photoUrls, tags, petStatus);
+            service.updatePet(updatedPet);
+            view.write("Pet data updated.");
+        }
+    }
+
+    private Set<Tag> getTags(Set<Tag> existedTags) {
+        view.write(String.format("Actual pet tags are %s.", existedTags));
 
         Set<Tag> tags = new HashSet<>();
-        view.write(String.format("Actual pet tags are %s.", pet.getTags()));
-
-        boolean leaveExistedTags = false;
-        int tagId = 0;
-        String tagIdString;
+        Integer tagId;
 
         while (true) {
 
-            while (true) {
-                view.write("Enter pet tag ID");
-                tagIdString = view.read();
-                if (tagIdString.equals("") & tags.isEmpty()) {
-                    tags.addAll(pet.getTags());
-                    leaveExistedTags = true;
-                    break;
-                }
-                try {
-                    tagId = Integer.parseInt(tagIdString);
-                    break;
-                } catch (NumberFormatException e) {
-                    view.write("Incorrect number. Please, try again");
-                }
-            }
-            if (leaveExistedTags == true) {
+            tagId = getInteger("Enter pet tag ID");
+            if (Objects.isNull(tagId) & tags.isEmpty()) {
+                tags.addAll(existedTags);
                 break;
             }
+
             view.write("Enter pet tag name");
             String tagName = view.read();
             tags.add(new Tag(tagId, tagName));
@@ -135,28 +96,89 @@ public class PetUpdater implements Command {
                 break;
             }
         }
+        return tags;
+    }
 
+    private String getStatus(String existedStatus) {
         String status;
         while (true) {
-            view.write(String.format("Actual pet status is %s. Enter pets status (choose from available, pending, sold)", pet.getStatus()));
+            view.write(String.format("Actual pet status is %s. Enter pets status (choose from available, pending, sold)", existedStatus));
             status = view.read();
             if (status.equals("")) {
-                status = pet.getStatus().name();
+                status = existedStatus;
                 break;
             } else {
-                boolean isIncorrectCommand = true;
                 if (status.equals("available") | status.equals("pending") | status.equals("sold")) {
                     break;
                 }
-                if (isIncorrectCommand) {
-                    view.write("Incorrect status. Please, try again");
+                view.write("Incorrect status. Please, try again");
+            }
+        }
+        return status;
+    }
+
+    private String getString(String message, String stringToUpdate) {
+        view.write(String.format(message, stringToUpdate));
+        String updatedString = view.read();
+        if (updatedString.equals("")) {
+            updatedString = stringToUpdate;
+        }
+        return updatedString;
+    }
+
+    private Set<String> getUrls(Set<String> existedPhotoUrls) {
+        Set<String> photoUrls = new HashSet<>();
+        view.write(String.format("Actual pet urls are %s. Enter pet urls divided with spaces", existedPhotoUrls));
+        String urls = view.read();
+        if (urls.equals("")) {
+            photoUrls.addAll(existedPhotoUrls);
+        } else {
+            Arrays.stream(urls.split("\\s+")).forEach(url -> photoUrls.add(url));
+        }
+        return photoUrls;
+    }
+
+    private Long getaLong(String message) {
+        String inputString;
+        Long input;
+        while (true) {
+            view.write(message);
+            inputString = view.read();
+            if (inputString.equals("")) {
+                input = null;
+                break;
+            } else {
+                try {
+                    input = Long.parseLong(inputString);
+                    break;
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    view.write("Incorrect number. Please, try again");
                 }
             }
         }
-        PetStatus petStatus = PetStatus.valueOf(status.toUpperCase());
-        Category category = new Category(categoryId, categoryName);
-        Pet updatedPet = new Pet(id, category, name, photoUrls, tags, petStatus);
-        service.updatePet(updatedPet);
-        view.write("Pet data updated.");
+        return input;
+    }
+
+    private Integer getInteger(String message) {
+        String inputString;
+        Integer input;
+        while (true) {
+            view.write(message);
+            inputString = view.read();
+            if (inputString.equals("")) {
+                input = null;
+                break;
+            } else {
+                try {
+                    input = Integer.parseInt(inputString);
+                    break;
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    view.write("Incorrect number. Please, try again");
+                }
+            }
+        }
+        return input;
     }
 }

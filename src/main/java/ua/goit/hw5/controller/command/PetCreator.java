@@ -29,57 +29,22 @@ public class PetCreator implements Command {
     }
 
     @Override
-    //could we decompose the method? Maybe we can reuse some code? I would extract several private methods
     public void process() {
-        Long id;
-        while (true) {
-            view.write("Enter pet id");
-            String petIdString = view.read();
-            try {
-                id = Long.parseLong(petIdString);
-                break;
-            } catch (NumberFormatException e) {
-                view.write("Incorrect number. Please, try again");
-            }
-        }
-        Long categoryId;
-        while (true) {
-            view.write("Enter pet category id");
-            String petIdString = view.read();
-            try {
-                categoryId = Long.parseLong(petIdString);
-                break;
-            } catch (NumberFormatException e) {
-                view.write("Incorrect number. Please, try again");
-            }
-        }
-        view.write("Enter pet category name");
-        String categoryName = view.read();
-        view.write("Enter pet name");
-        String name = view.read();
+        Long id = getaLong("Enter pet id");
+        Long categoryId = getaLong("Enter pet category id");
+        String categoryName = getString("Enter pet category name");
+        String name = getString("Enter pet name");
         view.write("Enter pet url links divided with blank");
         Set<String> photoUrls = new HashSet<>();
         Arrays.stream(view.read().split("\\s+")).forEach(url -> photoUrls.add(url));
         Set<Tag> tags = new HashSet<>();
         while (true) {
-            Integer tagId;
-            while (true) {
-                view.write("Enter pet tag id");
-                String petIdString = view.read();
-                try {
-                    tagId = Integer.parseInt(petIdString);
-                    break;
-                } catch (NumberFormatException e) {
-                    view.write("Incorrect number. Please, try again");
-                }
-            }
-            view.write("Enter pet tag name");
-            String tagName = view.read();
+            Integer tagId = getInteger("Enter pet tag id");
+            String tagName = getString("Enter pet tag name");
             tags.add(new Tag(tagId, tagName));
             String answer;
-            while(true) {
-                view.write("Would you like to add one more tag? Write yes or no:");
-                answer = view.read();
+            while (true) {
+                answer = getString("Would you like to add one more tag? Write yes or no:");
                 if (answer.equals("no") | answer.equals("yes")) {
                     break;
                 }
@@ -91,22 +56,52 @@ public class PetCreator implements Command {
         }
         String status;
         while (true) {
-            view.write("Enter pets status (choose from available, pending, sold)");
-            status = view.read();
-            // here we created the boolean value
-            boolean isIncorrectCommand = true;
+            status = getString("Enter pets status (choose from available, pending, sold)");
+
             if (status.equals("available") | status.equals("pending") | status.equals("sold")) {
                 break;
             }
-            //and without any possibility to change the value here we have if statement. Does it make sense?
-            if (isIncorrectCommand) {
-                view.write("Incorrect status. Please, try again");
-            }
+            view.write("Incorrect status. Please, try again");
         }
         PetStatus petStatus = PetStatus.valueOf(status.toUpperCase());
         Category category = new Category(categoryId, categoryName);
         Pet pet = new Pet(id, category, name, photoUrls, tags, petStatus);
         service.addPet(pet);
         view.write("Pet added.");
+    }
+
+    private Integer getInteger(String message) {
+        Integer input;
+        while (true) {
+            String petIdString = getString(message);
+            try {
+                input = Integer.parseInt(petIdString);
+                break;
+            } catch (NumberFormatException e) {
+                view.write("Incorrect number. Please, try again");
+            }
+        }
+        return input;
+    }
+
+    String getString(String message) {
+        view.write(message);
+        String input = view.read();
+        return input;
+    }
+
+    Long getaLong(String message) {
+        Long input;
+        while (true) {
+            view.write(message);
+            String petIdString = view.read();
+            try {
+                input = Long.parseLong(petIdString);
+                break;
+            } catch (NumberFormatException e) {
+                view.write("Incorrect number. Please, try again");
+            }
+        }
+        return input;
     }
 }
